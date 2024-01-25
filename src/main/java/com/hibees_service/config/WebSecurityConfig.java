@@ -1,5 +1,9 @@
 package com.hibees_service.config;
 
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import com.hibees_service.core.security.CustomCorsFilter;
 import com.hibees_service.core.security.JwtTokenFilterConfigurer;
@@ -27,6 +31,9 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
+import org.springframework.stereotype.Component;
+
+import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +44,6 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final RestAccessDeniedHandler accessDeniedHandler;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
@@ -73,7 +79,6 @@ public class WebSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.httpFirewall(allowUrlEncodedSlashHttpFirewall())
@@ -101,6 +106,23 @@ public class WebSecurityConfig {
         return firewall;
     }
 
+    @Component
+    public static class SwaggerConfiguration implements ApplicationListener<ApplicationPreparedEvent> {
+
+        @Override
+        public void onApplicationEvent(final ApplicationPreparedEvent event) {
+            ConfigurableEnvironment environment = event.getApplicationContext().getEnvironment();
+            Properties props = new Properties();
+            props.put("springdoc.swagger-ui.path", swaggerPath());
+            environment.getPropertySources()
+                    .addFirst(new PropertiesPropertySource("programmatically", props));
+        }
+
+        private String swaggerPath() {
+            return "/myproject"; // TODO: implement your logic here.
+        }
+    }
+
     //authenticate other endpoint except login and signup
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -115,6 +137,7 @@ public class WebSecurityConfig {
 //        return http.build();
 //    }
 
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -123,7 +146,7 @@ public class WebSecurityConfig {
                 .withUser("admin").password("{noop}password").roles("ADMIN");
     }
 
-    @Bean
+    @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.apply(new JwtTokenFilterConfigurer(jwtUtil));
         http

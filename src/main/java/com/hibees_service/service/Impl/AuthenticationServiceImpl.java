@@ -40,7 +40,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new BadCredentialsException("Bad credentials");
         }
 
+        //token creation
         user.setLastLoginDate(new Date());
+        userRepository.save(user);
         String jwtToken =jwtUtil.createToken(user.getEmail(),user.getRoles());
         return new UserTokenState(jwtToken, EXPIRE_IN);
     }
