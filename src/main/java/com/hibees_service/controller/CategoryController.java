@@ -7,40 +7,38 @@ import com.hibees_service.dto.CategoryDto;
 import com.hibees_service.persistence.admin.Category;
 import com.hibees_service.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(AppConstant.APP_CONTEXT)
+@RequestMapping(AppConstant.APP_CONTEXT + "/category")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/category")
-    public ApiResponse<?> category(@RequestBody CategoryRequest categoryRequest){
-        CategoryDto categoryDto = categoryService.createCategory(categoryRequest);
-        return ApiResponse.success(categoryDto);
+    @PostMapping("")
+    public ApiResponse<CategoryDto> category(@RequestBody CategoryDto category){
+        return ApiResponse.success(categoryService.createCategory(category));
     }
 
-    @GetMapping("/findCategory")
+    @GetMapping("/find")
     public ApiResponse<?> category(){
         List<Category> cat = categoryService.categories();
         return ApiResponse.success(cat);
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ApiResponse<?> findById(@PathVariable("categoryId") Long id) {
-        Category category = categoryService.findCategoryById(id);
-        return ApiResponse.success(category);
+    @GetMapping("/{id}")
+    public ApiResponse<CategoryDto> findById(@PathVariable Long id) {
+        return ApiResponse.success(categoryService.findCategoryById(id));
     }
 
-    @GetMapping("/category/{categoryName}")
-    public ApiResponse<?> findByCategoryName(@PathVariable("categoryName") String name){
-        Category categoryName = categoryService.findByCategoryName(name);
-            return ApiResponse.success(categoryName);
-    }
+//    @GetMapping("/{categoryId}")
+//    public ResponseEntity<CategoryDto>findByName(@PathVariable String name){
+//        return ResponseEntity.ok(categoryService.findName(name));
+//    }
 
 
 }

@@ -1,6 +1,6 @@
 package com.hibees_service.core.exceptions;
 
-import com.hibees_service.dto.enums.ErrorCode;
+import com.hibees_service.core.util.enums.ErrorCode;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -27,11 +27,12 @@ public class CustomException extends RuntimeException{
         this.error = code;
     }
 
+
+
     public CustomException(String message) {
         super(message);
         this.error = ErrorCode.INTERNAL;
     }
-
 
     public CustomException(ErrorCode code, Map<String,String> params) {
         this(code);

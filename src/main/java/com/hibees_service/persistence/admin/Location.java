@@ -14,10 +14,10 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
     @Column(name = "name", length = 50)
-    private String name;
+    private String address;
 
 
 }

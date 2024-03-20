@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class MenuItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long menuId;
+    private Long Id;
     @Column(name = "name", length = 50)
     private String name;
     @Column(name = "description", length = 1000)

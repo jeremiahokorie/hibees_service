@@ -1,9 +1,8 @@
 package com.hibees_service.persistence.entity;
 
 
-import com.hibees_service.dto.enums.UserRole;
+import com.hibees_service.core.util.enums.UserRole;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.hibees_service.dto.integrations;
+package com.hibees_service.core.util.integrations;
 
 import lombok.Data;
 

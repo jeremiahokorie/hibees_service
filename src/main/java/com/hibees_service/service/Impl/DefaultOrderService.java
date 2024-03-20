@@ -3,7 +3,7 @@ package com.hibees_service.service.Impl;
 import com.hibees_service.domain.request.AddOrderItemRequest;
 import com.hibees_service.domain.request.OrderItemRequest;
 import com.hibees_service.domain.request.OrderRequest;
-import com.hibees_service.dto.enums.OrderStatus;
+import com.hibees_service.core.util.enums.OrderStatus;
 import com.hibees_service.persistence.admin.MenuItems;
 import com.hibees_service.persistence.entity.Order;
 import com.hibees_service.persistence.entity.OrderItem;

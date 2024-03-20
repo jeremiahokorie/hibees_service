@@ -1,14 +1,13 @@
 package com.hibees_service.service;
 
-import com.hibees_service.dto.MenuItemDto;
 import com.hibees_service.persistence.admin.MenuItems;
 
 import java.util.List;
 
-public interface MenuItemService {
+public interface OrderItemService {
     MenuItems createMenu(MenuItems menuItems);
 
-    MenuItems findMenuById(Long menuId);
+    MenuItems findMenuById(Long id);
 
     List<MenuItems> findAllMenu();
 

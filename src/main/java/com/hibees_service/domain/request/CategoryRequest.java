@@ -9,5 +9,5 @@ import java.util.Date;
 @Builder
 public class CategoryRequest {
     private String name;
-    private Date createdAt;
+   // private Date createdAt;
 }

@@ -5,12 +5,13 @@ import com.hibees_service.core.constant.AppConstant;
 import com.hibees_service.dto.ApiResponse;
 import com.hibees_service.persistence.admin.Location;
 import com.hibees_service.service.LocationService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(AppConstant.APP_CONTEXT)
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class LocationController {
 
     private LocationService locationService;

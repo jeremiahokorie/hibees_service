@@ -18,7 +18,7 @@ public class DefaultLocationService implements LocationService {
     @Override
     public Location createLocation(Location location) {
 
-        if (locationRepository.findByname(location.getName()).isPresent()){
+        if (locationRepository.findByaddress(location.getAddress()).isPresent()){
             throw new CustomException("Location Already exist, Try another location");
         }
         locationRepository.save(location);

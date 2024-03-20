@@ -22,7 +22,9 @@ public class Role {
 //            joinColumns = @JoinColumn(
 //                    name = "role_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(
-//                    name = "privilege_id", referencedColumnName = "id"))
+//                    na    me = "privilege_id", referencedColumnName = "id"))
  //   private Collection<Privilege> privileges;
 
 }
+
+//EMAILPASSWORD=efxl eksq rvst texq;EMAILUSER=jeremiahokorieimo@gmail.com;PASSWORD=Jimohab@123;USERNAME=root

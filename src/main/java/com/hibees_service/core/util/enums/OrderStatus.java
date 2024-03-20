@@ -1,4 +1,4 @@
-package com.hibees_service.dto.enums;
+package com.hibees_service.core.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

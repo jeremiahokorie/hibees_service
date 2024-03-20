@@ -10,6 +10,5 @@ import lombok.Data;
 public class AddToFavoritesRequest {
 
     private User user;
-
     private MenuItems menuItem;
 }

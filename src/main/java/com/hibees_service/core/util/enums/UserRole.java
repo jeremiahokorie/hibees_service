@@ -1,4 +1,4 @@
-package com.hibees_service.dto.enums;
+package com.hibees_service.core.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +13,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum UserRole {
-    USER, ADMIN, CLEANER;
+    USER, ADMIN
 }

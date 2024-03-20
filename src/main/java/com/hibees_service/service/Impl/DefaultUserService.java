@@ -1,9 +1,10 @@
 package com.hibees_service.service.Impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hibees_service.core.exceptions.CustomException;
 import com.hibees_service.domain.response.UserResponse;
 import com.hibees_service.dto.UserDto;
-import com.hibees_service.dto.enums.UserRole;
+import com.hibees_service.core.util.enums.UserRole;
 import com.hibees_service.events.EmailNotificationEvent;
 import com.hibees_service.persistence.entity.User;
 import com.hibees_service.domain.request.UserRequest;
@@ -31,6 +32,8 @@ public class DefaultUserService implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final ApplicationEventPublisher publisher;
+
+    private final ObjectMapper objectMapper;
 
 
     @Override

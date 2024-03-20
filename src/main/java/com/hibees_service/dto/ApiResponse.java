@@ -21,8 +21,16 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> success(T data){
         return ApiResponse.<T>builder()
-                .message("Succeful")
-                .status("00")
+                .message("Successful")
+                .status("200")
+                .data(data)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> failed(T data){
+        return ApiResponse.<T>builder()
+                .message("Failed")
+                .status("400")
                 .data(data)
                 .build();
     }

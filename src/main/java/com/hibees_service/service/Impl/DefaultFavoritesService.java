@@ -34,23 +34,16 @@ public class DefaultFavoritesService implements FavoritesService {
         Favorites userFavorite = new Favorites();
         userFavorite.setUser(user);
 
-
         if (menuId != null) {
             MenuItems menuItem = menuItemRepository.findById(menuId)
                     .orElseThrow(() -> new CustomException("Menu item not found"));
             userFavorite.setMenuItem(menuItem);
         }
-
         favoritesRepository.save(userFavorite);
     }
-
-
-
-
     public List<Favorites> getUserFavorites(Long userId) {
         return favoritesRepository.findByuserId(userId);
     }
-
     public void removeFromFavorites(Long id) {
         Favorites userFavorite = favoritesRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Favorite not found"));

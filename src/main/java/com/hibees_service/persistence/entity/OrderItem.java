@@ -15,7 +15,7 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItem_Id;
+    private Long Id;
 
     @Column(name = "price")
     private BigDecimal price;

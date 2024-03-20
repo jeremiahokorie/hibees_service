@@ -4,15 +4,18 @@ import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import com.hibees_service.core.security.CustomCorsFilter;
 import com.hibees_service.core.security.JwtTokenFilterConfigurer;
 import com.hibees_service.core.security.RestAccessDeniedHandler;
 import com.hibees_service.core.security.RestAuthenticationEntryPoint;
 import com.hibees_service.core.util.JwtTokenFilter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import com.hibees_service.core.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +34,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
@@ -45,34 +50,6 @@ public class WebSecurityConfig {
     private final RestAccessDeniedHandler accessDeniedHandler;
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
-        http.apply(new JwtTokenFilterConfigurer(jwtUtil));
-        http
-                .securityMatcher(new RequestHeaderRequestMatcher("Authorization"))
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/login", "/signup").permitAll();
-                    authorize.requestMatchers("/swagger-ui**").permitAll();
-                    authorize.anyRequest().fullyAuthenticated();
-                })
-
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedHandler(accessDeniedHandler)
-                        .authenticationEntryPoint(authenticationEntryPoint))
-                .headers((header) -> {
-                    header.defaultsDisabled();
-                    header.cacheControl(Customizer.withDefaults());
-                    header.xssProtection(Customizer.withDefaults());
-                    header.frameOptions(Customizer.withDefaults());
-                    header.httpStrictTransportSecurity(Customizer.withDefaults());
-                })
-
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new CustomCorsFilter(), ChannelProcessingFilter.class);
-
-        return http.build();
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -123,20 +100,6 @@ public class WebSecurityConfig {
         }
     }
 
-    //authenticate other endpoint except login and signup
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.apply(new JwtTokenFilterConfigurer(jwtUtil));
-//        http
-//                .securityMatcher(new RequestHeaderRequestMatcher("Authorization"))
-//                .authorizeHttpRequests(authorize -> {
-//                    authorize.requestMatchers("/login", "/signup").permitAll();
-//                    authorize.requestMatchers("/swagger-ui**").permitAll();
-//                    authorize.anyRequest().authenticated();
-//                });
-//        return http.build();
-//    }
-
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -146,20 +109,20 @@ public class WebSecurityConfig {
                 .withUser("admin").password("{noop}password").roles("ADMIN");
     }
 
-    @Bean 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.apply(new JwtTokenFilterConfigurer(jwtUtil));
-        http
-                .securityMatcher(new RequestHeaderRequestMatcher("Authorization"))
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/login", "/signup").permitAll();
-                    authorize.requestMatchers("/swagger-ui**").permitAll();
-                    authorize.anyRequest().authenticated();
-                });
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/api/v2/auth/**", "/api/core/v1/login", "/api/core/v1/signup").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS).permitAll() // Allow CORS preflight requests
+                                .anyRequest().authenticated()
+                )
+                .addFilterBefore(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
     }
-
-
 
 
 }

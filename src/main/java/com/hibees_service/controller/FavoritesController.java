@@ -21,7 +21,7 @@ public class FavoritesController {
 
     @PostMapping("/favorite/addToFavorites")
     public ResponseEntity<String> addToFavorites(@RequestBody AddToFavoritesRequest request) {
-        favoritesService.addToFavorites(request.getUser().getId(), request.getMenuItem().getMenuId());
+        favoritesService.addToFavorites(request.getUser().getId(), request.getMenuItem().getId());
         return ResponseEntity.ok("Added to favorites successfully.");
     }
 

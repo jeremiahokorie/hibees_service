@@ -1,11 +1,12 @@
 package com.hibees_service.config;
 
 
-import com.hibees_service.dto.integrations.InfoBipSendEmailRequest;
-import com.hibees_service.dto.integrations.InfoBipSendEmailResponse;
-import com.hibees_service.dto.integrations.InfoBipSendSmsRequest;
-import com.hibees_service.dto.integrations.InfoBipSendSmsResponse;
+import com.hibees_service.core.util.integrations.InfoBipSendEmailRequest;
+import com.hibees_service.core.util.integrations.InfoBipSendEmailResponse;
+import com.hibees_service.core.util.integrations.InfoBipSendSmsRequest;
+import com.hibees_service.core.util.integrations.InfoBipSendSmsResponse;
 import com.hibees_service.service.InfoBipIntegration;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class AppConfig implements WebMvcConfigurer {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     @Bean
     public InfoBipIntegration infoBipIntegration() {
         return new InfoBipIntegration() {

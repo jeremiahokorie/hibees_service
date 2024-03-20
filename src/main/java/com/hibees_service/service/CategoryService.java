@@ -7,12 +7,12 @@ import com.hibees_service.persistence.admin.Category;
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDto createCategory(CategoryRequest categoryRequest);
+    CategoryDto createCategory(CategoryDto category);
 
 
     List<Category> categories();
 
-    Category findCategoryById(Long id);
+    CategoryDto findCategoryById(Long id);
 
-    Category findByCategoryName(String name);
+    CategoryDto findName(String name);
 }

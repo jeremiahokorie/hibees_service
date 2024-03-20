@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItems, Long> {
     MenuItems findByname(String name);
-
     List<MenuItems>findBylocationId(Long id);
 }

@@ -1,4 +1,4 @@
-package com.hibees_service.dto.integrations;
+package com.hibees_service.core.util.integrations;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
